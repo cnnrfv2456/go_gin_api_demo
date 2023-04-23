@@ -1,0 +1,40 @@
+version: "3.3"
+services:
+  app:
+    image: go_gin_api_demo
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - '9021:9001'
+    tty: true
+    volumes:
+      - '.:/api'
+    working_dir: '/api'
+    networks:
+      - gin_demo
+    depends_on:
+      - db
+  db:
+    image: 'postgres:14.1'
+    ports:
+      - '5431:5432'
+    environment:
+      POSTGRES_DB: 'gin_demo'
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root'
+    volumes:
+      - '../database/gin_demo:/var/lib/postgresql/data'
+    networks:
+      - gin_demo
+  redis:
+    image: 'redis:6.2-alpine'
+    ports:
+      - '6375:6379'
+    volumes:
+      - '../redis/gin_demo:/data'
+    networks:
+      - gin_demo
+networks:
+  gin_demo:
+    driver: bridge

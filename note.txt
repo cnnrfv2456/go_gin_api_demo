@@ -1,0 +1,12 @@
+-- 生成migrate檔案
+migrate create -ext sql -dir migrations/ -format unix create_member_table
+
+-- 執行migrate
+migrate -database postgres://root:root@db:5432/gin_demo?sslmode=disable -path migrations/ up
+migrate -database postgres://root:root@db:5432/gin_demo?sslmode=disable -path migrations/ down
+
+-- 產生api swagger 文檔
+swag i -g router/route.go -dir app/front_service,app/base --instanceName front_service -o=docs/front_service
+
+-- swagge 註釋 format
+swag fmt

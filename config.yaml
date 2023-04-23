@@ -1,0 +1,14 @@
+Service:
+  Port: "9001"
+Postgres:
+  Host: "db"
+  UserName: "root"
+  Password: "root"
+  Port: "5432"
+  Database: "gin_demo"
+Redis:
+  Host: "redis"
+  Password: ""
+  Port: "6379"
+  DB: 0
+JWT: "go_gin_api_deom"

@@ -1,0 +1,50 @@
+basePath: /api/front
+definitions:
+  request.CreateMemberRequest:
+    properties:
+      account:
+        description: 會員帳號
+        type: string
+      name:
+        description: 會員名稱
+        type: string
+      password:
+        description: 會員密碼
+        type: string
+    required:
+    - account
+    - name
+    - password
+    type: object
+info:
+  contact: {}
+  description: 前台api
+  title: gin_deom
+  version: "1.0"
+paths:
+  /member:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: json
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/request.CreateMemberRequest'
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: 創建會員
+      tags:
+      - 會員
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
