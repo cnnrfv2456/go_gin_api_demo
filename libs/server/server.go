@@ -36,7 +36,7 @@ func init() {
 	redis.Connect()
 
 	var frontService service.Service
-	frontService.Repository = postgres.NewPostgres()
+	frontService.Repository = postgres.Postgres
 
 	service.FrontService = &frontService
 }

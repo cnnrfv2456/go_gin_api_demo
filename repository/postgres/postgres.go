@@ -1,18 +1,6 @@
 package postgres
 
-import (
-	"go_gin_api_demo/libs/database"
-
-	"gorm.io/gorm"
-)
-
-type Postgres struct {
-	db *gorm.DB
+type PostgresRepository struct {
 }
 
-func NewPostgres() *Postgres {
-	var postgres Postgres
-	postgres.db = database.Postgres
-
-	return &postgres
-}
+var Postgres *PostgresRepository

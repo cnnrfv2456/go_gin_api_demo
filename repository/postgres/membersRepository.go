@@ -1,18 +1,21 @@
 package postgres
 
-import "go_gin_api_demo/models"
+import (
+	"go_gin_api_demo/libs/database"
+	"go_gin_api_demo/models"
+)
 
-func (t *Postgres) GetMember(where map[string]interface{}) ([]models.Member, error) {
+func (t *PostgresRepository) GetMember(where map[string]interface{}) ([]models.Member, error) {
 	var members []models.Member
-	err := t.db.Where(where).Find(&members).Error
+	err := database.Postgres.Where(where).Find(&members).Error
 
 	return members, err
 }
 
-func (t *Postgres) CreateMember(create map[string]interface{}) error {
+func (t *PostgresRepository) CreateMember(create map[string]interface{}) error {
 	var members models.Member
 
-	err := t.db.Model(members).Create(create).Error
+	err := database.Postgres.Model(members).Create(create).Error
 
 	return err
 }
