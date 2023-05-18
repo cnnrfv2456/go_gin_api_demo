@@ -3,32 +3,24 @@ package service
 import (
 	"errors"
 	"go_gin_api_demo/app/front_service/request"
-	"go_gin_api_demo/libs/database"
-	"go_gin_api_demo/models"
 	"go_gin_api_demo/utils"
 )
 
-type MemberService struct {
-}
+func (t *Service) CreateMember(request request.CreateMemberRequest) error {
 
-func (t *MemberService) CreateMember(request request.CreateMemberRequest) error {
-	var (
-		member models.Member
-	)
+	members, err := t.Repository.GetMember(map[string]interface{}{"account": request.Account})
 
-	database.Postgres.Where("account = ?", request.Account).First(&member)
-
-	if member.Id != 0 {
+	if len(members) > 0 {
 		return errors.New("已有重複帳號")
 	}
 
-	create := models.Member{
-		Name:     request.Name,
-		Account:  request.Account,
-		Password: utils.StrToMd5(request.Password),
+	create := map[string]interface{}{
+		"name":     request.Name,
+		"account":  request.Account,
+		"password": utils.StrToMd5(request.Password),
 	}
 
-	err := database.Postgres.Create(&create).Error
+	err = t.Repository.CreateMember(create)
 
 	if err != nil {
 		return errors.New("創建失敗")

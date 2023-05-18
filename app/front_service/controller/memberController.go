@@ -24,7 +24,6 @@ type MemberController struct {
 func (t *MemberController) CreateMember(ctx *gin.Context) {
 	var (
 		request request.CreateMemberRequest
-		service service.MemberService
 	)
 
 	ctx.ShouldBind(&request)
@@ -34,7 +33,7 @@ func (t *MemberController) CreateMember(ctx *gin.Context) {
 		return
 	}
 
-	err := service.CreateMember(request)
+	err := service.FrontService.CreateMember(request)
 
 	if err != nil {
 		t.ResponseJson(ctx, http.StatusBadRequest, err.Error(), "")

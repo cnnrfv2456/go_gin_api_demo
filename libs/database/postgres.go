@@ -16,8 +16,7 @@ type PostgresConn struct {
 
 var Postgres *gorm.DB
 
-func (t *PostgresConn) Connect() {
-
+func (t *PostgresConn) Connect() *gorm.DB {
 	//組合sql連線字串
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", t.Host, t.UserName, t.Password, t.Database, t.Port)
 
@@ -41,4 +40,6 @@ func (t *PostgresConn) Connect() {
 	conn.SetConnMaxLifetime(24 * time.Hour)
 	conn.SetMaxIdleConns(10)
 	conn.SetMaxOpenConns(20)
+
+	return Postgres
 }

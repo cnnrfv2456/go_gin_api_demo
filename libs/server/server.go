@@ -1,8 +1,10 @@
 package server
 
 import (
+	"go_gin_api_demo/app/front_service/service"
 	"go_gin_api_demo/libs/cache"
 	"go_gin_api_demo/libs/database"
+	"go_gin_api_demo/repository/postgres"
 	"go_gin_api_demo/router"
 	"log"
 
@@ -11,11 +13,8 @@ import (
 
 func init() {
 	setYaml()
-}
 
-//服務啟動
-func Run() {
-	postgres := database.PostgresConn{
+	db := database.PostgresConn{
 		UserName: viper.Get("Postgres.UserName").(string),
 		Password: viper.Get("Postgres.Password").(string),
 		Host:     viper.Get("Postgres.Host").(string),
@@ -31,10 +30,19 @@ func Run() {
 	}
 
 	//db連線
-	postgres.Connect()
+	db.Connect()
+
 	//redis連線
 	redis.Connect()
-	//服務啟動
+
+	var frontService service.Service
+	frontService.Repository = postgres.NewPostgres()
+
+	service.FrontService = &frontService
+}
+
+//服務啟動
+func Run() {
 	router.GinRouter()
 }
 
